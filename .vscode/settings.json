@@ -1,0 +1,11 @@
+{
+    "editor.rulers": [
+        120
+    ],
+    "python.linting.pylintArgs": [
+        "--disable=C0103,C0116,R0913,W0611"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    }
+}
