@@ -33,8 +33,12 @@ class MainThrowingErrorListener(ErrorListener):
 def handle(tree, indent_level=0):
     indent = ' ' * indent_level
     for child in tree.getChildren():
-        print(f'{indent}node: {child}')
-        if not isinstance(child, TerminalNode):
+        if isinstance(child, TerminalNode):
+            value = str(child).encode("unicode_escape").decode('utf-8')
+            print(f'{indent}node: {value}')
+        else:
+            type_name = type(child).__name__.replace('Context', '')
+            print(f'{indent}node: {type_name}')
             handle(child, indent_level=indent_level+1)
 
 
@@ -51,8 +55,8 @@ def main(argv):
 
     tokens = CommonTokenStream(lexer)
     parser = MyPyParser(tokens)
-    parser.removeErrorListeners()
-    parser.addErrorListener(MainThrowingErrorListener())
+    # parser.removeErrorListeners()
+    # parser.addErrorListener(MainThrowingErrorListener())
 
     try:
         handle(parser.program())
