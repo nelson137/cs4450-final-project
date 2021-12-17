@@ -55,7 +55,7 @@ stmtIf:
 	'if' test ':' INDENT ifBody NL DEDENT (
 		'elif' test ':' INDENT ifBody NL DEDENT
 	)* ('else:' INDENT ifBody NL DEDENT)?;
-test: expr;
+test: '(' test ')' | NUMBER | expr;
 ifBody: stmt | NL INDENT stmt+ DEDENT;
 
 stmtFuncCall: SYMBOL '(' (expr (',' expr)*)? ')';
