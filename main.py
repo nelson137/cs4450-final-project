@@ -7,10 +7,9 @@ CS 4450 - Final Project
 
 import sys
 
-from antlr4 import CommonTokenStream, FileStream, InputStream, ParseTreeWalker
+from antlr4 import CommonTokenStream, FileStream, InputStream, TerminalNode
 from antlr4.error.ErrorListener import ErrorListener
 from antlr4.error.Errors import ParseCancellationException
-from antlr4.tree import Tree
 
 from gen.MyPyLexer import MyPyLexer
 from gen.MyPyParser import MyPyParser
@@ -31,9 +30,12 @@ class MainThrowingErrorListener(ErrorListener):
     #     pass
 
 
-def handle(tree):
+def handle(tree, indent_level=0):
+    indent = ' ' * indent_level
     for child in tree.getChildren():
-        print(f'child: {child}')
+        print(f'{indent}node: {child}')
+        if not isinstance(child, TerminalNode):
+            handle(child, indent_level=indent_level+1)
 
 
 def main(argv):
