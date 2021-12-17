@@ -52,8 +52,9 @@ exprLogicOr: exprLogicAnd ('or' exprLogicAnd)*;
 exprLogicAnd: exprMath ('and' exprMath)*;
 exprMath: exprArith (OP_CMP exprArith)*;
 exprArith: arithTerm (('+' | '-') arithTerm)*;
-arithTerm: atom (('*' | '/' | '%' | '**') atom)*;
-atom: SYMBOL | NUMBER | STRING | funcCall;
+arithTerm: atomBin (('*' | '/' | '%' | '**') atomBin)*;
+atomBin: atom (('&' | '|' | '^') atom)*;
+atom: 'not'? (SYMBOL | NUMBER | STRING | funcCall);
 
 // Statements
 
