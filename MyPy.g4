@@ -12,13 +12,15 @@ assignment: SYMBOL '=' (STRING | NUMBER);
  * Lexer Rules
  */
 
+fragment DIGITS: [0-9]+;
+
 COMMENT: '#' ~[\r\n]*;
 
 SYMBOL: [a-zA-Z_] [a-zA-Z0-9_]*;
 
 STRING: '"' ~["]* '"';
 
-NUMBER: '-'? [0-9]+;
+NUMBER: '-'? DIGITS ('.' DIGITS)?;
 
 WHITESPACE: ' ' -> skip;
 
