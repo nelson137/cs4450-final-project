@@ -4,14 +4,14 @@ grammar MyPy;
  * Parser Rules
  */
 
-addition: NUMBER '+' NUMBER;
+program: (COMMENT)*;
 
 /**
  * Lexer Rules
  */
 
-NUMBER: [0-9]+;
+COMMENT: '#' ~[\r\n]*;
 
 WHITESPACE: ' ' -> skip;
 
-NEWLINE: '\n' -> skip;
+NEWLINE: '\r'? '\n' -> skip;

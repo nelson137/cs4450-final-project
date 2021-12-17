@@ -53,7 +53,7 @@ def main(argv):
     parser.addErrorListener(MainThrowingErrorListener())
 
     try:
-        handle(parser.addition())
+        handle(parser.program())
     except ParseCancellationException as ex:
         print(ex)
         # return 1
