@@ -47,13 +47,10 @@ funcCallArg: SYMBOL | expr;
 
 // Expressions
 
-expr:
-	SYMBOL
-	| NUMBER
-	| STRING
-	| expr OP_MATH expr
-	| expr OP_CMP expr // Nest math in cmp for forced precedence
-	| funcCall;
+expr: exprArith | expr OP_CMP expr;
+exprArith: arithTerm (('+' | '-') arithTerm)*;
+arithTerm: atom (('*' | '/' | '%' | '**') atom)*;
+atom: SYMBOL | NUMBER | STRING | funcCall;
 
 // Statements
 
