@@ -20,3 +20,18 @@ elif squirtle_HP >= 1:
     print(name+"'s Squirtle won!")
 else:
     print("Something went wrong!!!")
+
+# Find primes in a given interval
+begin = 5
+end = 25
+prime_counter = 0
+for num in range(begin, end):
+    if(num > 0):
+        if(num == 2):
+            print("Prime: "+str(num))
+        for i in range(2, int(num/2)+2):
+            if (num % i == 0):
+                break
+            else:
+                print("Prime: "+str(num))
+                break

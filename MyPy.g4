@@ -39,26 +39,39 @@ program: (comment | stmt | NL)* EOF;
 
 comment: COMMENT NL;
 
+// Common
+
+funcCall: SYMBOL '(' funcCallArgList? ')';
+funcCallArgList: funcCallArg (',' funcCallArg)*;
+funcCallArg: SYMBOL | expr;
+
 // Expressions
 
-expr: exprNum | exprStr;
-exprNum: (SYMBOL | NUMBER) CMP_OP (SYMBOL | NUMBER);
-exprStr: STRING | SYMBOL '+' exprStr | exprStr '+' SYMBOL;
+expr:
+	SYMBOL
+	| NUMBER
+	| STRING
+	| expr OP_MATH expr
+	| expr OP_CMP expr // Nest math in cmp for forced precedence
+	| funcCall;
 
 // Statements
 
-stmt: stmtAssign | stmtIf | stmtFuncCall;
+stmt: stmtBreak | stmtIf | stmtFor | stmtAssign | stmtFuncCall;
 
-stmtAssign: SYMBOL '=' (STRING | NUMBER);
+stmtAssign: SYMBOL '=' expr NL;
 
 stmtIf:
-	'if' test ':' INDENT ifBody NL DEDENT (
-		'elif' test ':' INDENT ifBody NL DEDENT
-	)* ('else:' INDENT ifBody NL DEDENT)?;
-test: '(' test ')' | NUMBER | expr;
-ifBody: stmt | NL INDENT stmt+ DEDENT;
+	'if' test ':' body ('elif' test ':' body)* ('else:' body)?;
+test: '(' test ')' | expr;
 
-stmtFuncCall: SYMBOL '(' (expr (',' expr)*)? ')';
+stmtFuncCall: funcCall NL;
+
+stmtFor: 'for' SYMBOL 'in' expr ':' body;
+
+stmtBreak: 'break' NL;
+
+body: INDENT stmt+ DEDENT;
 
 /**
  * Lexer Rules
@@ -74,7 +87,8 @@ STRING: '"' ~["]* '"';
 
 NUMBER: '-'? DIGITS ('.' DIGITS)?;
 
-CMP_OP: '>' | '<' | '>=' | '<=' | '==' | '!=';
+OP_CMP: '>' | '<' | '>=' | '<=' | '==' | '!=';
+OP_MATH: '**' | '*' | '/' | '%' | '+' | '-';
 
 WHITESPACE: ' ' -> skip;
 
