@@ -12,6 +12,7 @@
             "args": [
                 "${workspaceFolder}/test.py"
             ],
+            "preLaunchTask": "build",
         }
     ]
 }
