@@ -76,6 +76,8 @@ stmtFuncCall: funcCall NL;
 
 stmtFor: 'for' SYMBOL 'in' expr ':' body;
 
+stmtWhile: 'while' expr ':' body;
+
 stmtBreak: 'break' NL;
 
 body: INDENT stmt+ DEDENT;
