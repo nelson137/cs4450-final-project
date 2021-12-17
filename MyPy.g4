@@ -58,9 +58,15 @@ atom: 'not'? (SYMBOL | NUMBER | STRING | funcCall);
 
 // Statements
 
-stmt: stmtBreak | stmtIf | stmtFor | stmtAssign | stmtFuncCall;
+stmt:
+	stmtBreak
+	| stmtIf
+	| stmtFor
+	| stmtWhile
+	| stmtAssign
+	| stmtFuncCall;
 
-stmtAssign: SYMBOL '=' expr NL;
+stmtAssign: SYMBOL OP_ASSIGN expr NL;
 
 stmtIf:
 	'if' test ':' body ('elif' test ':' body)* ('else:' body)?;
@@ -89,7 +95,17 @@ STRING: '"' ~["]* '"';
 NUMBER: '-'? DIGITS ('.' DIGITS)?;
 
 OP_CMP: '>' | '<' | '>=' | '<=' | '==' | '!=';
-OP_MATH: '**' | '*' | '/' | '%' | '+' | '-';
+OP_ASSIGN:
+	'='
+	| '+='
+	| '-='
+	| '*='
+	| '/='
+	| '%='
+	| '**='
+	| '^='
+	| '&='
+	| '|=';
 
 WHITESPACE: ' ' -> skip;
 
