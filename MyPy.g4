@@ -47,7 +47,10 @@ funcCallArg: SYMBOL | expr;
 
 // Expressions
 
-expr: exprArith | expr OP_CMP expr;
+expr: exprLogicOr;
+exprLogicOr: exprLogicAnd ('or' exprLogicAnd)*;
+exprLogicAnd: exprMath ('and' exprMath)*;
+exprMath: exprArith (OP_CMP exprArith)*;
 exprArith: arithTerm (('+' | '-') arithTerm)*;
 arithTerm: atom (('*' | '/' | '%' | '**') atom)*;
 atom: SYMBOL | NUMBER | STRING | funcCall;
